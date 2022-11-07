@@ -6,8 +6,8 @@ using System.Diagnostics; // Process
 using System.Windows;
 using System.Threading;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
+//using System.Runtime.Remoting.Channels;
+//using System.Runtime.Remoting.Channels.Ipc;
 using hlae.remoting;
 using System.Runtime.InteropServices;
 
@@ -205,59 +205,7 @@ namespace compLexity_Demo_Player
 
                         if (UseHlae)
                         {
-                            // open IPC channel
-                            IpcChannel channel = new IpcChannel();
-                            ChannelServices.RegisterChannel(channel, true);
-
-                            try
-                            {
-                                IHlaeRemote_1 remote = (IHlaeRemote_1)Activator.GetObject(typeof(IHlaeRemote_1), "ipc://localhost:31337/Hlae.Remote.1");
-
-                                // bleh
-                                Boolean connected = false;
-                                Int32 attempts = 0;
-
-                                do
-                                {
-                                    try
-                                    {
-                                        connected = true;
-                                        remote.GetCustomArgs();
-                                    }
-                                    catch (RemotingException)
-                                    {
-                                        connected = false;
-                                        attempts++;
-                                        Thread.Sleep(50);
-                                    }
-                                }
-                                while (!connected && attempts < 10);
-
-                                if (!connected)
-                                {
-                                    MessageBox.Show("Failed to communicate with the HLAE process remotely. You must manually launch the game and enter the command \"exec coldemoplayer.cfg\" in the console.", Config.ProgramName);
-                                }
-                                else
-                                {
-                                    if (remote.IsDeprecated())
-                                    {
-                                        MessageBox.Show("Warning: HLAE interface depreciated.");
-                                    }
-
-                                    try
-                                    {
-                                        remote.LaunchEx(remote.GetCustomArgs() + launchParameters);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        MessageBox.Show("Warning: " + e.Message, "IPC error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                                    }
-                                }
-                            }
-                            finally
-                            {
-                                ChannelServices.UnregisterChannel(channel);
-                            }
+                            // There used to be stuff here, idk what it does.  Check the commit history for it.
                         }
                     }
                 }

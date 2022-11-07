@@ -47,14 +47,6 @@ namespace compLexity_Demo_Player
                     if (File.Exists(args[0]))
                     {
                         // send command line parameter to existing process
-                        try
-                        {
-                            CreateClientChannel(args[0]);
-                        }
-                        catch (Exception ex)
-                        {
-                            Common.Message(null, "Error creating client IPC channel.", ex, MessageWindow.Flags.Error);
-                        }
                     }
                 }
 
@@ -63,16 +55,6 @@ namespace compLexity_Demo_Player
             }
             else
             {
-                try
-                {
-                    CreateServerChannel();
-                }
-                catch (Exception ex)
-                {
-                    Common.Message(null, "Error creating server IPC channel.", ex, MessageWindow.Flags.Error);
-                    return; // quit
-                }
-
                 AllowSetForegroundWindow(Process.GetCurrentProcess().Id);
             }
 
@@ -121,34 +103,9 @@ namespace compLexity_Demo_Player
             app.Run();
         }
 
-        private static void CreateServerChannel()
-        {
-            IpcServerChannel channel = new IpcServerChannel(ipcPortName);
-            ChannelServices.RegisterChannel(channel, false);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(Ipc), ipcServername, WellKnownObjectMode.Singleton);
-        }
-
-        private static void CreateClientChannel(String arg)
-        {
-            IpcClientChannel channel = new IpcClientChannel();
-            ChannelServices.RegisterChannel(channel, false);
-            RemotingConfiguration.RegisterWellKnownClientType(typeof(Ipc), "ipc://" + ipcPortName + "/" + ipcServername);
-
-            Ipc ipc = new Ipc();
-            ipc.OpenFile(arg);
-        }
-
         public static void OpenFile(String fileName)
         {
             MainWindowInterface.OpenDemo(fileName);
-        }
-    }
-
-    public class Ipc : MarshalByRefObject
-    {
-        public void OpenFile(String fileName)
-        {
-            Program.OpenFile(fileName);
         }
     }
 }
