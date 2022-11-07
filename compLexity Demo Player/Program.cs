@@ -21,7 +21,7 @@ namespace compLexity_Demo_Player
         static public IMainWindow MainWindowInterface { get; set; }
 
         [STAThread]
-        public static void Main(String[] argsdi)
+        public static void Main(String[] args)
         {
             // read config.xml
             try
