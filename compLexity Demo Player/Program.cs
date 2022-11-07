@@ -123,16 +123,16 @@ namespace compLexity_Demo_Player
 
         private static void CreateServerChannel()
         {
-            //IpcServerChannel channel = new IpcServerChannel(ipcPortName);
-            //ChannelServices.RegisterChannel(channel, false);
-            //RemotingConfiguration.RegisterWellKnownServiceType(typeof(Ipc), ipcServername, WellKnownObjectMode.Singleton);
+            IpcServerChannel channel = new IpcServerChannel(ipcPortName);
+            ChannelServices.RegisterChannel(channel, false);
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(Ipc), ipcServername, WellKnownObjectMode.Singleton);
         }
 
         private static void CreateClientChannel(String arg)
         {
-            //IpcClientChannel channel = new IpcClientChannel();
-            //ChannelServices.RegisterChannel(channel, false);
-            //RemotingConfiguration.RegisterWellKnownClientType(typeof(Ipc), "ipc://" + ipcPortName + "/" + ipcServername);
+            IpcClientChannel channel = new IpcClientChannel();
+            ChannelServices.RegisterChannel(channel, false);
+            RemotingConfiguration.RegisterWellKnownClientType(typeof(Ipc), "ipc://" + ipcPortName + "/" + ipcServername);
 
             Ipc ipc = new Ipc();
             ipc.OpenFile(arg);
