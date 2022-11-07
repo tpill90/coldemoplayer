@@ -1,3 +1,5 @@
+Working dotnet 6 version of compLexity Demo Player.
+
 compLexity Demo Player is the official Counter-Strike demo player of compLexity Gaming.
 
 Features of note:
