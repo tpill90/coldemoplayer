@@ -48,7 +48,8 @@ namespace compLexity_Demo_Player
 
         protected void ReadConfig()
         {
-            String configFileName = Config.ProgramPath + "\\config\\" + (Engine == Engines.HalfLife ? "goldsrc" : "source") + "\\" + Folder + ".json";
+            var goldsrc = Engine == Engines.HalfLife ? "goldsrc" : "source";
+            String configFileName = $@"{Config.ProgramPath}\config\{goldsrc}\{Folder}.json";
 
             if (!File.Exists(configFileName))
             {
