@@ -6,8 +6,6 @@ using System.Runtime.InteropServices; // DllImport
 using System.Diagnostics; // Process
 using System.IO;
 using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
 
 namespace compLexity_Demo_Player
 {
@@ -23,7 +21,7 @@ namespace compLexity_Demo_Player
         static public IMainWindow MainWindowInterface { get; set; }
 
         [STAThread]
-        static void Main(String[] args)
+        public static void Main(String[] argsdi)
         {
             // read config.xml
             try
@@ -125,16 +123,16 @@ namespace compLexity_Demo_Player
 
         private static void CreateServerChannel()
         {
-            IpcServerChannel channel = new IpcServerChannel(ipcPortName);
-            ChannelServices.RegisterChannel(channel, false);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(Ipc), ipcServername, WellKnownObjectMode.Singleton);
+            //IpcServerChannel channel = new IpcServerChannel(ipcPortName);
+            //ChannelServices.RegisterChannel(channel, false);
+            //RemotingConfiguration.RegisterWellKnownServiceType(typeof(Ipc), ipcServername, WellKnownObjectMode.Singleton);
         }
 
         private static void CreateClientChannel(String arg)
         {
-            IpcClientChannel channel = new IpcClientChannel();
-            ChannelServices.RegisterChannel(channel, false);
-            RemotingConfiguration.RegisterWellKnownClientType(typeof(Ipc), "ipc://" + ipcPortName + "/" + ipcServername);
+            //IpcClientChannel channel = new IpcClientChannel();
+            //ChannelServices.RegisterChannel(channel, false);
+            //RemotingConfiguration.RegisterWellKnownClientType(typeof(Ipc), "ipc://" + ipcPortName + "/" + ipcServername);
 
             Ipc ipc = new Ipc();
             ipc.OpenFile(arg);

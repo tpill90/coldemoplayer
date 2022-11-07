@@ -5,9 +5,6 @@ using System.IO;
 using System.Diagnostics; // Process
 using System.Windows;
 using System.Threading;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
 using hlae.remoting;
 using System.Runtime.InteropServices;
 
@@ -186,93 +183,93 @@ namespace compLexity_Demo_Player
         {
             Process process = null;
 
-            while (true)
-            {
-                if (process == null)
-                {
-                    // looking for process
-                    process = Common.FindProcess(System.IO.Path.GetFileNameWithoutExtension(processExeFullPath), processExeFullPath);
+            //while (true)
+            //{
+            //    if (process == null)
+            //    {
+            //        // looking for process
+            //        process = Common.FindProcess(System.IO.Path.GetFileNameWithoutExtension(processExeFullPath), processExeFullPath);
 
-                    if (process != null)
-                    {
-                        Interface.LaunchedProcessFound();
+            //        if (process != null)
+            //        {
+            //            Interface.LaunchedProcessFound();
 
-                        // set process priority
-                        if (!UseHlae && Config.Settings.GameProcessPriority != ProcessPriorityClass.Normal)
-                        {
-                            process.PriorityClass = Config.Settings.GameProcessPriority;
-                        }
+            //            // set process priority
+            //            if (!UseHlae && Config.Settings.GameProcessPriority != ProcessPriorityClass.Normal)
+            //            {
+            //                process.PriorityClass = Config.Settings.GameProcessPriority;
+            //            }
 
-                        if (UseHlae)
-                        {
-                            // open IPC channel
-                            IpcChannel channel = new IpcChannel();
-                            ChannelServices.RegisterChannel(channel, true);
+            //            if (UseHlae)
+            //            {
+            //                // open IPC channel
+            //                IpcChannel channel = new IpcChannel();
+            //                ChannelServices.RegisterChannel(channel, true);
 
-                            try
-                            {
-                                IHlaeRemote_1 remote = (IHlaeRemote_1)Activator.GetObject(typeof(IHlaeRemote_1), "ipc://localhost:31337/Hlae.Remote.1");
+            //                try
+            //                {
+            //                    IHlaeRemote_1 remote = (IHlaeRemote_1)Activator.GetObject(typeof(IHlaeRemote_1), "ipc://localhost:31337/Hlae.Remote.1");
 
-                                // bleh
-                                Boolean connected = false;
-                                Int32 attempts = 0;
+            //                    // bleh
+            //                    Boolean connected = false;
+            //                    Int32 attempts = 0;
 
-                                do
-                                {
-                                    try
-                                    {
-                                        connected = true;
-                                        remote.GetCustomArgs();
-                                    }
-                                    catch (RemotingException)
-                                    {
-                                        connected = false;
-                                        attempts++;
-                                        Thread.Sleep(50);
-                                    }
-                                }
-                                while (!connected && attempts < 10);
+            //                    do
+            //                    {
+            //                        try
+            //                        {
+            //                            connected = true;
+            //                            remote.GetCustomArgs();
+            //                        }
+            //                        catch (RemotingException)
+            //                        {
+            //                            connected = false;
+            //                            attempts++;
+            //                            Thread.Sleep(50);
+            //                        }
+            //                    }
+            //                    while (!connected && attempts < 10);
 
-                                if (!connected)
-                                {
-                                    MessageBox.Show("Failed to communicate with the HLAE process remotely. You must manually launch the game and enter the command \"exec coldemoplayer.cfg\" in the console.", Config.ProgramName);
-                                }
-                                else
-                                {
-                                    if (remote.IsDeprecated())
-                                    {
-                                        MessageBox.Show("Warning: HLAE interface depreciated.");
-                                    }
+            //                    if (!connected)
+            //                    {
+            //                        MessageBox.Show("Failed to communicate with the HLAE process remotely. You must manually launch the game and enter the command \"exec coldemoplayer.cfg\" in the console.", Config.ProgramName);
+            //                    }
+            //                    else
+            //                    {
+            //                        if (remote.IsDeprecated())
+            //                        {
+            //                            MessageBox.Show("Warning: HLAE interface depreciated.");
+            //                        }
 
-                                    try
-                                    {
-                                        remote.LaunchEx(remote.GetCustomArgs() + launchParameters);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        MessageBox.Show("Warning: " + e.Message, "IPC error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                                    }
-                                }
-                            }
-                            finally
-                            {
-                                ChannelServices.UnregisterChannel(channel);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    // found process, waiting for it to close
-                    if (process.HasExited)
-                    {
-                        Interface.LaunchedProcessClosed();
-                        return;
-                    }
-                }
+            //                        try
+            //                        {
+            //                            remote.LaunchEx(remote.GetCustomArgs() + launchParameters);
+            //                        }
+            //                        catch (Exception e)
+            //                        {
+            //                            MessageBox.Show("Warning: " + e.Message, "IPC error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            //                        }
+            //                    }
+            //                }
+            //                finally
+            //                {
+            //                    ChannelServices.UnregisterChannel(channel);
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        // found process, waiting for it to close
+            //        if (process.HasExited)
+            //        {
+            //            Interface.LaunchedProcessClosed();
+            //            return;
+            //        }
+            //    }
 
-                Thread.Sleep(250);
-            }
+            //    Thread.Sleep(250);
+            //}
         }
 
         private void WriteConfig()
